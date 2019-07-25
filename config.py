@@ -4,4 +4,4 @@ Created by Liangraorao on 2019/7/21 18:40
 filename : config.py
 """
 
-DEBUG = True
+DEBUG = False
