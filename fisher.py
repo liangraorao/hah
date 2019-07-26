@@ -3,15 +3,20 @@ Created by Liangraorao on 2019/7/17 23:31
  __author__  : Liangraorao
 filename : fisher.py
 """
+from app import current_app
+from helper import is_isbn_or_key
+from yushu_book import YushuBook
+import json
 
-from flask import Flask
+app = current_app()
 
-app = Flask(__name__)
-print(str(id(app)) + "每次经过的")
-app.config.from_object('config')
-
-from app.web import book
-
+@app.route('/book/search/<q>/<page>')
+def search(q, page):
+    is_key = is_isbn_or_key(q)
+    if is_key == 'isbn':
+        result = YushuBook.search_by_isbn(q)
+    else:
+        result = YushuBook.search_by_keyword(q)
+    return json.dumps(result), 200, {'content-type':'application/json'}
 if __name__ == '__main__':
-    print(str(id(app)) + "启动")
     app.run(host='127.0.0.1', debug=app.config['DEBUG'], port=8000)
