@@ -6,14 +6,15 @@ filename : book.py
 
 from helper import is_isbn_or_key
 from yushu_book import YushuBook
+from flask import Blueprint, jsonify
+from app.web import web
 
-#
-# @app.route('/book/search/<q>/<page>')
-# def search(q, page):
-#     is_key = is_isbn_or_key(q)
-#     if is_key == 'isbn':
-#         result = YushuBook.search_by_isbn(q)
-#     else:
-#         result = YushuBook.search_by_keyword(q)
-#     return result
+@web.route('/book/search/<q>/<page>')
+def search(q, page):
+    is_key = is_isbn_or_key(q)
+    if is_key == 'isbn':
+        result = YushuBook.search_by_isbn(q)
+    else:
+        result = YushuBook.search_by_keyword(q)
+    return jsonify(result)
     # return json.dumps(result), 200, {'content-type':'application/json'}
