@@ -4,4 +4,5 @@
 target
 out
 gen
-*.__pycache__
+__pycache__
+secure.py

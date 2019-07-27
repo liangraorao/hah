@@ -4,6 +4,8 @@ Created by Liangraorao on 2019/7/23 23:05
 filename : yushu_book.py
 """
 from httper import HTTP
+from flask import current_app
+
 
 class YushuBook:
     isbn_url = 'http://t.yushu.im/v2/book/isbn/{}'
@@ -15,6 +17,6 @@ class YushuBook:
         return result
 
     @classmethod
-    def search_by_keyword(cls, keyword, count =15, start =0):
-        result = HTTP.get(cls.keyword_url.format(keyword, count, start))
+    def search_by_keyword(cls, keyword, page=1):
+        result = HTTP.get(cls.keyword_url.format(keyword, current_app.config['PER_PAGE'], (page-1)*current_app.config['PER_PAGE']))
         return result

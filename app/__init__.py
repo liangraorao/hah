@@ -7,7 +7,8 @@ from flask import Flask
 
 def current_app():
      app = Flask(__name__)
-     app.config.from_object('config')
+     app.config.from_object('app.config')
+     app.config.from_object('app.secure')
      register_blueprint(app)
      return app
 
