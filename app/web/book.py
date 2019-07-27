@@ -6,15 +6,23 @@ filename : book.py
 
 from helper import is_isbn_or_key
 from yushu_book import YushuBook
-from flask import Blueprint, jsonify
+from flask import jsonify,request
 from app.web import web
+from app.forms.book import SearchForm
 
-@web.route('/book/search/<q>/<page>')
-def search(q, page):
-    is_key = is_isbn_or_key(q)
-    if is_key == 'isbn':
-        result = YushuBook.search_by_isbn(q)
+
+@web.route('/book/search')
+def search():
+    form = SearchForm(request.args)
+    if form.validate():
+        q = form.q.data.strip()
+        page = form.page.data
+        is_key = is_isbn_or_key(q)
+
+        if is_key == 'isbn':
+            result = YushuBook.search_by_isbn(q)
+        else:
+            result = YushuBook.search_by_keyword(q)
+        return jsonify(result)
     else:
-        result = YushuBook.search_by_keyword(q)
-    return jsonify(result)
-    # return json.dumps(result), 200, {'content-type':'application/json'}
+        return jsonify(({'msg':'参数校验失败'}))
