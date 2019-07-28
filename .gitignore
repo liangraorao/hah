@@ -6,3 +6,5 @@ out
 gen
 __pycache__
 secure.py
+test
+a.py
