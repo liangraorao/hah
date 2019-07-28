@@ -4,8 +4,8 @@ Created by Liangraorao on 2019/7/25 21:53
 filename : book.py
 """
 
-from helper import is_isbn_or_key
-from yushu_book import YushuBook
+from app.libs.helper import is_isbn_or_key
+from app.spider.yushu_book import YushuBook
 from flask import jsonify,request
 from app.web import web
 from app.forms.book import SearchForm

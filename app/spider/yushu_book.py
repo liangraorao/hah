@@ -3,7 +3,7 @@ Created by Liangraorao on 2019/7/23 23:05
  __author__  : Liangraorao
 filename : yushu_book.py
 """
-from httper import HTTP
+from app.libs.httper import HTTP
 from flask import current_app
 
 
