@@ -18,5 +18,9 @@ class YushuBook:
 
     @classmethod
     def search_by_keyword(cls, keyword, page=1):
-        result = HTTP.get(cls.keyword_url.format(keyword, current_app.config['PER_PAGE'], (page-1)*current_app.config['PER_PAGE']))
+        result = HTTP.get(cls.keyword_url.format(keyword, current_app.config['PER_PAGE'], cls.caculate_start(page)))
         return result
+
+    @classmethod
+    def caculate_start(cls, page):
+        return (page-1)*current_app.config['PER_PAGE']
