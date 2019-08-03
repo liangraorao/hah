@@ -30,7 +30,7 @@ def search():
         else:
             yushu_book.search_by_keyword(q)
         books.fill(yushu_book,q)
-        return json.dumps(books, default=lambda o:o.__dict__)
+        return json.dumps(books, default=lambda o:o.__dict__, ensure_ascii=False)
         # return jsonify(books.books)
     else:
         return jsonify(form.errors)
