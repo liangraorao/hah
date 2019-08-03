@@ -7,6 +7,8 @@ filename : book.py
 from app.libs.helper import is_isbn_or_key
 from app.spider.yushu_book import YushuBook
 from flask import jsonify,request
+
+from app.view_models.book import BookViewModel
 from app.web import web
 from app.forms.book import SearchForm
 
@@ -21,8 +23,10 @@ def search():
 
         if is_key == 'isbn':
             result = YushuBook.search_by_isbn(q)
+            result = BookViewModel.package_single(result, q)
         else:
             result = YushuBook.search_by_keyword(q)
+            result = BookViewModel.package_collection(result,q)
         return jsonify(result)
     else:
         return jsonify(form.errors)
