@@ -7,7 +7,7 @@ import json
 
 from app.libs.helper import is_isbn_or_key
 from app.spider.yushu_book import YushuBook
-from flask import jsonify,request
+from flask import jsonify,request, render_template, flash
 
 from app.view_models.book import BookViewModel, BookCollection
 from app.web import web
@@ -30,7 +30,28 @@ def search():
         else:
             yushu_book.search_by_keyword(q)
         books.fill(yushu_book,q)
-        return json.dumps(books, default=lambda o:o.__dict__, ensure_ascii=False)
+        # return json.dumps(books, default=lambda o:o.__dict__, ensure_ascii=False)
         # return jsonify(books.books)
     else:
-        return jsonify(form.errors)
+        # return jsonify(form.errors)
+        flash("您输入的关键词有误，请重新输入")
+    return render_template('search_result.html', books=books)
+
+@web.route('/book/<isbn>/detail')
+def book_detail(isbn):
+    pass
+
+@web.route('/my_gifts')
+def my_gifts():
+    pass
+
+@web.route('/my_wish')
+def my_wish():
+    pass
+@web.route('/pending')
+def pending():
+    pass
+
+@web.route('/index')
+def index():
+    pass
