@@ -34,9 +34,13 @@ def search():
         flash("您输入的关键词有误，请重新输入")
     return render_template('search_result.html', books=books)
 
+
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
-    pass
+    yushu_book = YushuBook()
+    yushu_book.search_by_isbn(isbn)
+    book = BookViewModel(yushu_book.books[0])
+    return render_template('book_detail.html', book=book, wishes={}, gifts={})
 
 @web.route('/my_gifts')
 def my_gifts():
@@ -51,4 +55,8 @@ def pending():
 
 @web.route('/index')
 def index():
+    pass
+
+@web.route('/savetowish')
+def save_to_wish():
     pass

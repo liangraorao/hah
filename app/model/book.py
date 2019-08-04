@@ -4,10 +4,10 @@ Created by Liangraorao on 2019/7/28 18:59
 filename : book.py
 """
 from sqlalchemy import Column, Integer, String
-from flask_sqlalchemy import SQLAlchemy
+from app.model.base import Base
 
-db = SQLAlchemy()
-class Book(db.Model):
+
+class Book(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(50), nullable=False)
     author = Column(String(30), default='未名')

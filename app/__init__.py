@@ -4,7 +4,7 @@ Created by Liangraorao on 2019/7/21 18:42
 filename : __init__.py.py
 """
 from flask import Flask
-from app.model.book import db
+from app.model.base import db
 def current_app():
      app = Flask(__name__)
      app.config.from_object('app.config')
