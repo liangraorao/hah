@@ -30,10 +30,7 @@ def search():
         else:
             yushu_book.search_by_keyword(q)
         books.fill(yushu_book,q)
-        # return json.dumps(books, default=lambda o:o.__dict__, ensure_ascii=False)
-        # return jsonify(books.books)
     else:
-        # return jsonify(form.errors)
         flash("您输入的关键词有误，请重新输入")
     return render_template('search_result.html', books=books)
 

@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-7 flex-vertical description-font">
                     <span class="title">{{ book.title }}</span>
-{#                    <span>{{ [book.author | d(''), book.publisher | d('', true) , '￥' + book.price | d('')] | join(' / ') }}</span>#}
+{#                    <span>{{ [book.author | d('', True), book.publisher | d('', true) , '￥' + book.price | d('', True)] | join(' / ') }}</span>#}
                     <span>{{book.intro}}</span>
                     <span class="summary">{{ book.summary | default('', true) }}</span>
                 </div>
@@ -40,6 +40,6 @@
 {% block scripts %}
     {{ super() }}
     <script src="{{ url_for('static', filename='3rd/jquery.twbsPagination.min.js') }}"></script>
-    <script src="{{ url_for('static', filename="js/util.js") }}"></script>
+    <script src="{{ url_for('static', filename='js/util.js')}}"></script>
     <script src="{{ url_for('static', filename='js/search_result.js') }}"></script>
 {% endblock %}
