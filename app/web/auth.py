@@ -15,7 +15,7 @@ def register():
         user.set_attrs(form.data)
         db.session.add(user)
         db.session.commit()
-        redirect(url_for('web.login'))
+        return redirect(url_for('web.login'))
     return render_template('auth/register.html', form=form)
 
 
