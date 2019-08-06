@@ -55,7 +55,7 @@ def pending():
 
 @web.route('/index')
 def index():
-    pass
+    return 'index page'
 
 @web.route('/savetowish')
 def save_to_wish():
