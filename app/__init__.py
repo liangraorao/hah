@@ -5,6 +5,9 @@ filename : __init__.py.py
 """
 from flask import Flask
 from app.model.base import db
+from flask_login import LoginManager
+
+login_manager = LoginManager()
 def current_app():
      app = Flask(__name__)
      app.config.from_object('app.config')
@@ -12,6 +15,7 @@ def current_app():
      register_blueprint(app)
      db.init_app(app)
      db.create_all(app=app)
+     login_manager.init_app(app=app)
      return app
 
 def register_blueprint(app):

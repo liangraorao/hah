@@ -13,4 +13,4 @@ def index():
 
 @web.route('/personal')
 def personal_center():
-    pass
+    return 'personal'

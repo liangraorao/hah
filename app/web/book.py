@@ -42,9 +42,9 @@ def book_detail(isbn):
     book = BookViewModel(yushu_book.books[0])
     return render_template('book_detail.html', book=book, wishes={}, gifts={})
 
-@web.route('/my_gifts')
-def my_gifts():
-    pass
+# @web.route('/my_gifts')
+# def my_gifts():
+#     pass
 
 @web.route('/my_wish')
 def my_wish():
