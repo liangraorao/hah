@@ -3,15 +3,17 @@ Created by Liangraorao on 2019/7/25 21:53
  __author__  : Liangraorao
 filename : book.py
 """
-import json
-
 from app.libs.helper import is_isbn_or_key
+from app.model.gift import Gift
+from app.model.wish import Wish
 from app.spider.yushu_book import YushuBook
 from flask import jsonify,request, render_template, flash
 
 from app.view_models.book import BookViewModel, BookCollection
+from app.view_models.trade import Trade
 from app.web import web
 from app.forms.book import SearchForm
+from flask_login import current_user
 
 
 @web.route('/book/search')
@@ -37,6 +39,7 @@ def search():
 
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
+    #默认情况下
     has_in_giftes = False
     has_in_wishes = False
 
@@ -45,15 +48,25 @@ def book_detail(isbn):
     yushu_book = YushuBook()
     yushu_book.search_by_isbn(isbn)
     book = BookViewModel(yushu_book.books[0])
-    return render_template('book_detail.html', book=book, wishes={}, gifts={})
 
-# @web.route('/my_gifts')
-# def my_gifts():
-#     pass
+    # 用户登录情况
+    if current_user.is_authenticated:
+        if Gift.query.filter_by(isbn=isbn, uid=current_user.id, launched=False).first():
+            has_in_giftes = True
+        if Wish.query.filter_by(isbn=isbn, uid=current_user.id, launched=False).first():
+            has_in_wishes = True
 
-# @web.route('/my_wish')
-# def my_wish():
-#     pass
+    trade_gifts = Gift.query.filter_by(isbn=isbn, launched=False).all()
+    trade_wishes = Wish.query.filter_by(isbn=isbn, launched=False).all()
+
+    trade_gifts_model = Trade(trade_gifts)
+    trade_wishes_model = Trade(trade_wishes)
+
+    return render_template('book_detail.html',
+                           book=book, wishes=trade_wishes_model, gifts=trade_gifts_model,
+                           has_in_giftes=has_in_giftes, has_in_wishes=has_in_wishes)
+
+
 @web.route('/pending')
 def pending():
     pass
@@ -61,4 +74,8 @@ def pending():
 @web.route('/index')
 def index():
     return 'index page'
+
+@web.route('/lll')
+def send_drift():
+    pass
 
