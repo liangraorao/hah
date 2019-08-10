@@ -71,9 +71,6 @@ def book_detail(isbn):
 def pending():
     pass
 
-@web.route('/index')
-def index():
-    return 'index page'
 
 @web.route('/lll')
 def send_drift():
