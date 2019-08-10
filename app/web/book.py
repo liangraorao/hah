@@ -46,9 +46,9 @@ def book_detail(isbn):
 # def my_gifts():
 #     pass
 
-@web.route('/my_wish')
-def my_wish():
-    pass
+# @web.route('/my_wish')
+# def my_wish():
+#     pass
 @web.route('/pending')
 def pending():
     pass
@@ -57,6 +57,3 @@ def pending():
 def index():
     return 'index page'
 
-@web.route('/savetowish')
-def save_to_wish():
-    pass
