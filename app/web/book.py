@@ -37,6 +37,11 @@ def search():
 
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
+    has_in_giftes = False
+    has_in_wishes = False
+
+
+    # 书籍详情信息
     yushu_book = YushuBook()
     yushu_book.search_by_isbn(isbn)
     book = BookViewModel(yushu_book.books[0])
