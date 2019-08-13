@@ -27,7 +27,6 @@ class Query(BaseQuery):
         return super(Query, self).filter_by(**kwargs)
 
 
-
 db = SQLAlchemy(query_class=Query)
 
 

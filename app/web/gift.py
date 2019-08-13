@@ -4,9 +4,15 @@ from flask_login import login_required, current_user
 from flask import current_app, flash ,redirect, url_for
 from app.model.base import db
 
+
 @web.route('/my/gifts')
 @login_required
 def my_gifts():
+    uid = current_user.id
+    gifts_of_mine = Gift.get_user_gifts(uid)
+    isbn_list = [gift.isbn for gift in gifts_of_mine]
+    # 每个礼物对应的心愿数量
+    wish_count_list = Gift.get_wish_counts(isbn_list)
     return 'My Gift'
 
 
