@@ -4,7 +4,7 @@ from app.forms.auth import RegisterForm, LoginForm
 from . import web
 from flask import render_template, request, redirect, url_for, flash
 from app.model.base import db
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 
 
 @web.route('/register', methods=['GET', 'POST'])
@@ -52,4 +52,5 @@ def change_password():
 
 @web.route('/logout')
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('web.index'))

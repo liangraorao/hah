@@ -1,13 +1,20 @@
 from app.model.wish import Wish
+from app.view_models.trade import MyTrades
 from . import web
 from flask_login import current_user, login_required
 from app.model.base import db
-from flask import flash, redirect, url_for
+from flask import flash, redirect, url_for, render_template
 
 
 @web.route('/my/wish')
 def my_wish():
-    pass
+    uid = current_user.id
+    wishes_of_mine = Wish.get_user_wishes(uid)
+    isbn_list = [gift.isbn for gift in wishes_of_mine]
+    # 每个礼物对应的心愿数量
+    gift_count_list = Wish.get_gifts_counts(isbn_list)
+    view_Model = MyTrades(wishes_of_mine, gift_count_list)
+    return render_template('my_wish.html', wishes=view_Model.trades)
 
 
 @web.route('/wish/book/<isbn>')
