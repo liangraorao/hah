@@ -1,7 +1,7 @@
 """
 Created by Liangraorao on 2019/8/13 23:03
  __author__  : Liangraorao
-filename : my_gift.py
+filename : gift.py
 """
 from app.view_models.book import BookViewModel
 
@@ -23,13 +23,13 @@ class MyGifts:
 
     def __match(self, gift):
         for wish_count in self.wish_count_list:
-            if gift == wish_count['isbn']:
+            if gift.isbn == wish_count['isbn']:
                 count = wish_count['count']
 
                 r = {
-                    'count':count,
-                    'book':BookViewModel(gift.isbn),
-                    'id':gift.id
+                    'wishes_count': count,
+                    'book': BookViewModel(gift.book),
+                    'id': gift.id
                 }
                 return r
 

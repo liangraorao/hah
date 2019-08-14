@@ -1,7 +1,8 @@
 from app.model.gift import Gift
+from app.view_models.gift import MyGifts
 from . import web
 from flask_login import login_required, current_user
-from flask import current_app, flash ,redirect, url_for
+from flask import current_app, flash, redirect, url_for, render_template
 from app.model.base import db
 
 
@@ -13,7 +14,8 @@ def my_gifts():
     isbn_list = [gift.isbn for gift in gifts_of_mine]
     # 每个礼物对应的心愿数量
     wish_count_list = Gift.get_wish_counts(isbn_list)
-    return 'My Gift'
+    view_Model = MyGifts(gifts_of_mine, wish_count_list)
+    return render_template('my_gifts.html', gifts=view_Model.gifts)
 
 
 @web.route('/gifts/book/<isbn>')
