@@ -38,4 +38,15 @@ class Wish(Base):
                 isbn_list), Gift.status==1).group_by(Gift.isbn).all()
 
         count_list = [{'count': w[0], 'isbn':w[1]} for w in count_list]
+        cls.add_count_list(isbn_list, count_list)
+
         return count_list
+
+    @classmethod
+    def add_count_list(cls, isbn_list, count_list):
+        for isbn in isbn_list:
+            list_add = []
+            for i in count_list:
+                list_add.append(i['isbn'])
+            if isbn not in list_add:
+                count_list.append({'isbn': isbn,'count':0})
