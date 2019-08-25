@@ -14,6 +14,7 @@ from app.model.book import Book
 from app.model.gift import Gift
 from app.model.wish import Wish
 from app.model.user import User
+from app.model.drift import Drift
 
 
 app = current_app()

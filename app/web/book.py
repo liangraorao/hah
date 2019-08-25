@@ -52,7 +52,7 @@ def book_detail(isbn):
     # 用户登录情况
     if current_user.is_authenticated:
         if Gift.query.filter_by(isbn=isbn, uid=current_user.id, launched=False).first():
-            has_in_giftes = True
+            has_in_gifts = True
         if Wish.query.filter_by(isbn=isbn, uid=current_user.id, launched=False).first():
             has_in_wishes = True
 
@@ -64,15 +64,9 @@ def book_detail(isbn):
 
     return render_template('book_detail.html',
                            book=book, wishes=trade_wishes_model, gifts=trade_gifts_model,
-                           has_in_giftes=has_in_giftes, has_in_wishes=has_in_wishes)
+                           has_in_gifts=has_in_gifts, has_in_wishes=has_in_wishes)
 
 
-@web.route('/pending')
-def pending():
-    pass
 
 
-@web.route('/lll')
-def send_drift():
-    pass
 

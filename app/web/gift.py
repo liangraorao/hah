@@ -1,3 +1,5 @@
+from app.libs.enums import PendingStatus
+from app.model.drift import Drift
 from app.model.gift import Gift
 from app.view_models.gift import MyGifts
 from app.view_models.trade import MyTrades
@@ -39,7 +41,15 @@ def save_to_gifts(isbn):
 
 @web.route('/gifts/<gid>/redraw')
 def redraw_from_gifts(gid):
-    pass
+    gift = Gift.query.filter_by(id=gid, uid=current_user.id, launched=False).first_or_404()
+    drift = Drift.query.filter_by(requester_id=current_user.id, isbn=gift.isbn, pending=PendingStatus.Wating).first()
+    if drift:
+        flash('这个礼物正处于交易中，请先往鱼漂完成该交易')
+    else:
+        with db.auto_to_commit():
+            current_user.beans -= current_app.config['BEANS_UPLOAD_ONE_BOOK']
+            gift.delete()
+    return redirect(url_for('web.my_gifts'))
 
 
 

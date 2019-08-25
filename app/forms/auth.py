@@ -4,7 +4,7 @@ Created by Liangraorao on 2019/8/5 21:32
 filename : auth.py
 """
 from wtforms import Form, StringField, validators, PasswordField
-from wtforms.validators import ValidationError, DataRequired, Length, Email
+from wtforms.validators import ValidationError, DataRequired, Length, Email, EqualTo
 from app.model.user import User
 
 class RegisterForm(Form):
@@ -28,3 +28,10 @@ class LoginForm(Form):
 
 class EmailForm(Form):
     email = StringField(validators=[DataRequired(), Length(5,64), Email(message='电子邮箱不合法')])
+
+
+class ResetPasswordForm(Form):
+    password1 = PasswordField(validators=[DataRequired(), Length(
+        6, 32, message='密码长度至少需要在6到32个字符之间'), EqualTo(
+        'password2', message='两次密码输入不相同')])
+    password2 = PasswordField(validators=[DataRequired(), Length(6,32)])

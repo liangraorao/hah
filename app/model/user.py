@@ -7,12 +7,17 @@ from sqlalchemy import Column, Integer, String, Boolean, Float
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 
+from app.libs.enums import PendingStatus
 from app.libs.helper import is_isbn_or_key
 from app.model.base import Base
 from app import login_manager
+from app.model.drift import Drift
 from app.model.gift import Gift
 from app.model.wish import Wish
 from app.spider.yushu_book import YushuBook
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app
+from math import floor
 
 
 class User(UserMixin, Base):
@@ -58,7 +63,43 @@ class User(UserMixin, Base):
         else:
             return False
 
+    def generate_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=6000)
+        temp = s.dumps({'id': self.id}).decode('utf-8')
+        return temp
 
+    @staticmethod
+    def reset_password(token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except Exception as e:
+            return False
+        uid = data.get('id')
+        from app.model.base import db
+        with db.auto_to_commit():
+            user = User.query.get(uid)
+            user.password = new_password
+        return True
+
+    def can_send_drift(self):
+        if self.beans <=1:
+            return False
+        # 成功赠送书籍
+        success_gifts_count = Gift.query.filter_by(uid=self.id, launched=False).count()
+        # 成功索要到的书籍
+        success_receive_count = Drift.query.filter_by(requester_id=self.id, pending=PendingStatus.Success).count()
+
+        return True if floor(success_receive_count/2) <= floor(success_gifts_count) else False
+
+    @property
+    def summary(self):
+        return dict(
+            nickname=self.nickname,
+            beans=self.beans,
+            email=self.email,
+            send_receive=str(self.send_counter) + '/' + str(self.receive_counter)
+        )
 @login_manager.user_loader
 def get_user(uid):
     return User.query.get(int(uid))
